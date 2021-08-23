@@ -117,6 +117,11 @@ class Test_cacl():
     @pytest.mark.parametrize("a,b,expect", getyaml()[8], ids=getyaml()[9])
     @pytest.mark.run(order=2)
     def test_add_float(self, a, b, expect, getcacl):
+        # 以二进制的方式打开图片
+        with open("../yaml/erro.png", "rb") as f:
+            content = f.read()
+        # 将图片传送给allure
+        allure.attach(content, attachment_type=allure.attachment_type.PNG)
         """
         加法浮点数的测试方法
         :return:
@@ -132,9 +137,12 @@ class Test_cacl():
         除法除数为零的情况
         :return:
         """
+
         with pytest.raises(ZeroDivisionError):
             print("除法除数为零的情况")
             getcacl.div(a, b)
+
+
 
     # @allure.story("fixture测试方法")
     # # @pytest.mark.parametrize("a,b,expect", getyaml()[0], ids=getyaml()[1])

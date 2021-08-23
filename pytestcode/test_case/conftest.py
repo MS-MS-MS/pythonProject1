@@ -1,6 +1,7 @@
 import time
 from typing import List
 
+import allure
 import pytest
 from pytestcode.cacl.calculator import Calculator
 
@@ -55,3 +56,4 @@ def manage_logs(request):
     log_name = rootdir + '/output/log/' + now + '.logs'
     request.config.pluginmanager.get_plugin("logging-plugin") \
         .set_log_path(log_name)
+
