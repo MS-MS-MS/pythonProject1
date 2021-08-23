@@ -35,8 +35,10 @@ class Calculator:
         :param b:
         :return: a*b
         """
-        if b!=0:
-            result = a / b
-            return result
-        else:
-            print("除数不能为零")
+        result = a / b
+        return result
+        # if b!=0:
+        #     result = a / b
+        #     return result
+        # else:
+        #     print("除数不能为零")
