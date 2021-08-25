@@ -3,6 +3,7 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 """
@@ -42,7 +43,7 @@ class Test_wait():
         # 强制等待
         time.sleep(5)
 
-    def test_Display_wait(self):
+    def test_Display_wait_func(self):
         """
         显示等待
         1.lambda方式
@@ -52,11 +53,45 @@ class Test_wait():
         WebDriverWait(5).until()
         """
         #
-        # WebDriverWait(5).until(lambda self.driver)
-        ele = self.driver.find_element(By.XPATH, "//*[@id='kw']")
-        print(ele)
-        ele.click()
+        # # WebDriverWait(5).until(lambda self.driver)
+        # WebDriverWait(5).until(lambda diver: self.driver.find_element(By.XPATH,'//*[@id="u"]/a[1]'))
+        # self.driver.find_element(By.XPATH, '//*[@id="u"]/a[1]').click()
+
+        # 第一种方式  until 需要接受一个方法
+        # 创建一个方法 在页面是查找该元素,
+        # 返回 查找元素的长度 返回的长度大于等于1 证明该元素在页面上已经被查找到
+        # 重要 自定义的方法需要一个默认参数 until 需要进行传参
+        def wait(x):
+            return len(self.driver.find_elements(By.XPATH, '//*[@id="s-usersetting-top"]'))>=1
+        WebDriverWait(self.driver,5).until(wait)
+        self.driver.find_element_by_id("kw").send_keys("selenium")
         self.driver.find_element_by_id("su").click()
-        WebDriverWait(5).until(lambda diver: self.driver.find_element(By.XPATH,'//*[@id="u"]/a[1]'))
-        self.driver.find_element(By.XPATH, '//*[@id="u"]/a[1]').click()
-        pass
+        time.sleep(5)
+        # self.driver.find_element_by_id("su").click()
+
+    def test_Display_wait_excpted(self):
+
+        """
+        expected_conditions
+        对网页的元素是否可点击,可见进行判断
+        配合WebDriverWait().until 使用
+        """
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable((By.XPATH, '//*[@id="s-usersetting-top"]')))
+        self.driver.find_element_by_id("kw").send_keys("selenium")
+        self.driver.find_element_by_id("su").click()
+        time.sleep(5)
+
+    def test_Display_wait_lambda(self):
+        """
+        使用lambda 匿名函数
+        lambda X  接受的是 self.driver  x引用的域变量就是WebDriverWait的self._driver类变量
+        lambda x:x.find_element(loc)表达式就被替换成为了self.driver.find_element就可以正常的使用driver使用一样
+        """
+        WebDriverWait(self.driver,5).until(lambda x: x.find_element(By.XPATH, '//*[@id="s-usersetting-top"]'))
+        self.driver.find_element_by_id("kw").send_keys("selenium")
+        self.driver.find_element_by_id("su").click()
+        time.sleep(5)
+
+
+# $x("//*[@id='s-usersetting-top']")
+# 在console 使用xpath 定位方式 $x("元素的xpth")
