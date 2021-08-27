@@ -18,8 +18,15 @@ time.sleep(10)
 3.显示等待
 是针对于某个特定的元素设置的等待时间，在设置时间内，
 默认每隔一段时间检测一次当前页面某个元素是否存在，如果在规定的时间内找到了元素，则直接执行，即找到元素就执行相关操作，如果超过设置时间检测不到则抛出异常。默认检测频率为0.5s，默认抛出
-
+显示等待
+1.lambda方式
+wait.until(lambda x:x.find_element_by_id('kw'))
+2.基本的传入方法
+3.元素是否可见 可点击
+WebDriverWait(5).until()
 """
+
+
 class Test_wait():
     def setup(self):
         # 初始化driver
@@ -34,9 +41,8 @@ class Test_wait():
         self.driver.quit()
 
     def test_search(self):
-
         # self.driver.find_element_by_id("kw").send_keys("selenium")
-        ele=self.driver.find_element(By.XPATH,"//*[@id='kw']")
+        ele = self.driver.find_element(By.XPATH, "//*[@id='kw']")
         print(ele)
         ele.click()
         self.driver.find_element_by_id("su").click()
@@ -44,39 +50,27 @@ class Test_wait():
         time.sleep(5)
 
     def test_Display_wait_func(self):
-        """
-        显示等待
-        1.lambda方式
-        wait.until(lambda diver:driver.find_element_by_id('kw'))
-        2.基本的传入方法
-        3.元素是否可见 可点击
-        WebDriverWait(5).until()
-        """
-        #
-        # # WebDriverWait(5).until(lambda self.driver)
-        # WebDriverWait(5).until(lambda diver: self.driver.find_element(By.XPATH,'//*[@id="u"]/a[1]'))
-        # self.driver.find_element(By.XPATH, '//*[@id="u"]/a[1]').click()
-
         # 第一种方式  until 需要接受一个方法
         # 创建一个方法 在页面是查找该元素,
         # 返回 查找元素的长度 返回的长度大于等于1 证明该元素在页面上已经被查找到
         # 重要 自定义的方法需要一个默认参数 until 需要进行传参
         def wait(x):
-            return len(self.driver.find_elements(By.XPATH, '//*[@id="s-usersetting-top"]'))>=1
-        WebDriverWait(self.driver,5).until(wait)
+            return len(self.driver.find_elements(By.XPATH, '//*[@id="s-usersetting-top"]')) >= 1
+
+        WebDriverWait(self.driver, 5).until(wait)
         self.driver.find_element_by_id("kw").send_keys("selenium")
         self.driver.find_element_by_id("su").click()
         time.sleep(5)
         # self.driver.find_element_by_id("su").click()
 
     def test_Display_wait_excpted(self):
-
         """
         expected_conditions
         对网页的元素是否可点击,可见进行判断
         配合WebDriverWait().until 使用
         """
-        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable((By.XPATH, '//*[@id="s-usersetting-top"]')))
+        WebDriverWait(self.driver, 5).until(
+            expected_conditions.element_to_be_clickable((By.XPATH, '//*[@id="s-usersetting-top"]')))
         self.driver.find_element_by_id("kw").send_keys("selenium")
         self.driver.find_element_by_id("su").click()
         time.sleep(5)
@@ -87,11 +81,16 @@ class Test_wait():
         lambda X  接受的是 self.driver  x引用的域变量就是WebDriverWait的self._driver类变量
         lambda x:x.find_element(loc)表达式就被替换成为了self.driver.find_element就可以正常的使用driver使用一样
         """
-        WebDriverWait(self.driver,5).until(lambda x: x.find_element(By.XPATH, '//*[@id="s-usersetting-top"]'))
+        WebDriverWait(self.driver, 5).until(lambda x: x.find_element(By.XPATH, '//*[@id="s-usersetting-top"]'))
         self.driver.find_element_by_id("kw").send_keys("selenium")
         self.driver.find_element_by_id("su").click()
         time.sleep(5)
 
 
+
+
+
+
 # $x("//*[@id='s-usersetting-top']")
 # 在console 使用xpath 定位方式 $x("元素的xpth")
+#  $x("//*[@id='content_left']//*[@class='result c-container new-pmd']//*[@class='t c-title-en']")
