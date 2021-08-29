@@ -52,7 +52,7 @@ def manage_logs(request):
     # 优先级2: conftest.py
     # pytest.ini和conftest.py 文件不存在 就会报错
     rootdir = request.config.rootdir
-    print(f"文件位置{rootdir}")
+    # print(f"文件位置{rootdir}")
     log_name = rootdir + '/output/log/' + now + '.logs'
     request.config.pluginmanager.get_plugin("logging-plugin") \
         .set_log_path(log_name)
