@@ -47,6 +47,7 @@ class AddMemberPage(Base_Page):
         while True:
             # 应对添加的联系人不在当前页面
             contactlist = self.finds(By.CSS_SELECTOR, ".member_colRight_memberTable_td:nth-child(2)")
+            print(contactlist)
             # 拿到包含title元素
             titlelist=[element.get_attribute("title") for element in contactlist]
             if vaule in titlelist:
@@ -60,5 +61,5 @@ class AddMemberPage(Base_Page):
                 return False
             else:
                 self.find(By.CSS_SELECTOR,".js_next_page").click()
-            print(totallist)
+            # print(totallist)
         return totallist

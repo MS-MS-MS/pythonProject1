@@ -21,7 +21,7 @@ class MailList_Page(Base_Page):
         # 唯一节点下div的子节点下a标签的位置 .js_has_member>div:nth-child(1)>a:nth-child(2)
         WebDriverWait(self.driver,5).until(expected_conditions.element_to_be_clickable((By.CSS_SELECTOR,".js_has_member>div:nth-child(1)>a:nth-child(2)")))
         self.find(By.CSS_SELECTOR,".js_has_member>div:nth-child(1)>a:nth-child(2)").click()
-        return AddMemberPage()
+        return AddMemberPage(self.driver)
         # locator = (By.CSS_SELECTOR, ".js_has_member>div:nth-child(1)>a:nth-child(2)")
         # def wait_for_next(x: WebDriver):
         #     """

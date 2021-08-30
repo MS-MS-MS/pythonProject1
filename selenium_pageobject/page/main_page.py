@@ -26,7 +26,7 @@ class Main_Page(Base_Page):
         # self.driver.find_element(By.CSS_SELECTOR,'.index_service_cnt_itemWrap:nth-child(1)').click()
         self.find(By.CSS_SELECTOR,'.index_service_cnt_itemWrap:nth-child(1)').click()
         #跳转页面,传入self.driver
-        return AddMemberPage()
+        return AddMemberPage(self.driver)
 
     def goto_menu_contacts(self):
         """
@@ -35,4 +35,4 @@ class Main_Page(Base_Page):
         # self.driver.find_element_by_id("menu_contacts").click()
         self.find(By.ID,"menu_contacts").click()
         # return MailList_Page(self.driver)
-        return MailList_Page()
+        return MailList_Page(self.driver)

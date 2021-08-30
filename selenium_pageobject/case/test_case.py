@@ -15,8 +15,6 @@ class Test_case:
         add_member.addmember_msg(username,acctid,phonenumber)
         # 断言判断联系人的名字是否在当前所有联系人的列表中
         result=add_member.get_number(username)
-        # assert username in add_member.get_number(username)
-        print(result)
         assert result==True
 
     def test_add1(self):
