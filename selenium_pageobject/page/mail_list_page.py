@@ -15,7 +15,7 @@ class MailList_Page(Base_Page):
 
     def add_member(self):
         from selenium_pageobject.page.add_member_page import AddMemberPage
-        # CSS_SELECTOR 中大于号">"表示字节的
+        # CSS_SELECTOR 中大于号">"表示子节点的
         # 唯一节点.js_has_member
         # 唯一节点下div的子节点.js_has_member>div:nth-child(1)
         # 唯一节点下div的子节点下a标签的位置 .js_has_member>div:nth-child(1)>a:nth-child(2)
