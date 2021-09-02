@@ -22,8 +22,7 @@ class Test_WebUI:
         self.driver.maximize_window()
 
     def teardown(self):
-        # self.driver.quit()
-        pass
+        self.driver.quit()
     @pytest.mark.skip
     def test_weibo(self):
         """
@@ -80,6 +79,7 @@ class Test_WebUI:
         # action.perform()
         # time.sleep(5)
 
+    @pytest.mark.skip
     def test_51(self):
         """
         实战题目
@@ -99,81 +99,57 @@ class Test_WebUI:
         # 取消默认定位城市
         self.driver.find_element(By.ID,"work_position_click_ip_location_000000_010000").click()
         # 选择城市
-        self.driver.find_element(By.XPATH,"//em[text()='杭州']").click()
+        self.driver.find_element(By.XPATH,"//em[text()='北京']").click()
 
         self.driver.find_element(By.ID,"work_position_click_bottom_save").click()
         self.driver.find_element(By.XPATH,"//button[text()='搜索']").click()
-        # time.sleep(5)
-
-        # 设置元素等待实例，最多等10秒，每0.5秒查找一次
-        def wait_elements(driver, by_, element_, timeout=10):
-            element = WebDriverWait(driver=driver, timeout=timeout).until(
-                lambda x: x.find_elements(by=by_, value=element_)
-            )
-            return element
-            # 找到职位列表
-        lists = wait_elements(self.driver, By.CSS_SELECTOR, "div#resultList>div.el")[1:]
-
-        for data in lists:
+        """
+        在查询页面的数据是要使用find_elements
+        要拿到所有数据否则回报错显示 
+        TypeError: 'WebElement' object is not iterable 对象不可编辑
+        """
+        list=self.driver.find_elements_by_css_selector(".j_result>div>div:nth-child(2)>div:nth-child(4)>div:nth-child(1)")
+        for data  in list:
+            """
+            在定位数据中查询所有的span标签
+            获取所有span标签中的text属性
+            """
             spans = [i.text for i in data.find_elements_by_css_selector("span")]
-            print(" | ".join(spans))
+            print(" | ".join(spans)+"\n")
 
-    @pytest.mark.skip
-    def test_a(self):
-        from time import sleep
-        from selenium import webdriver
-        from selenium.webdriver.support.wait import WebDriverWait
-        from selenium.webdriver.common.by import By
+    def test_51_search(self):
+        """
+        实战题目
+        登录 http://www.51job.com
+        点击高级搜索
+        输入搜索关键词 python
+        地区选择 杭州
+        职能类别 选 计算机软件 -> 高级软件工程师
+        公司性质 选 上市公司
+        工作年限 选 1-3 年
+        搜索最新发布的职位， 抓取页面信息。 得到如下的格式化信息
+        Python开发工程师 | 杭州纳帕科技有限公司 | 杭州 | 0.8-1.6万/月 | 04-27
+        Python高级开发工程师 | 中浙信科技咨询有限公司 | 杭州 | 1-1.5万/月 | 04-27
+        :return:
+        """
+        self.driver.get("http://www.51job.com")
+        self.driver.find_element(By.CLASS_NAME,"more").click()
+        self.driver.find_element(By.ID,"kwdselectid").send_keys("python")
+        self.driver.find_element(By.ID,"work_position_input").click()
+        self.driver.find_element(By.XPATH,"//em[text()='北京']").click()
+        self.driver.find_element(By.XPATH,"//em[text()='杭州']").click()
+        self.driver.find_element(By.ID,"work_position_click_bottom_save").click()
+        #选择职能泪飙
+        self.driver.find_element(By.ID,"funtype_click").click()
+        # 点击测试
+        self.driver.find_element(By.ID,"funtype_click_center_right_list_category_0100_2700").click()
+        # 选择软件工程师
+        self.driver.find_element(By.ID,"funtype_click_center_right_list_sub_category_each_0100_2707").click()
+        # 点击确定
+        self.driver.find_element(By.ID,"funtype_click_bottom_save").click()
+        #公司性质
+        self.driver.find_element(By.ID,"cottype_list").click()
+        #选择上市公司
+        self.driver.find_element_by_css_selector("#cottype_list>div>span:nth-child(5)").click()
 
-        # 设置元素等待实例，最多等10秒，每0.5秒查找一次
-        def wait_element(driver, by_, element_, timeout=10):
-            element = WebDriverWait(driver=driver, timeout=timeout).until(
-                lambda x: x.find_element(by=by_, value=element_)
-            )
-            return element
 
-        # 设置元素等待实例，最多等10秒，每0.5秒查找一次
-        def wait_elements(driver, by_, element_, timeout=10):
-            element = WebDriverWait(driver=driver, timeout=timeout).until(
-                lambda x: x.find_elements(by=by_, value=element_)
-            )
-            return element
-
-        # 加载驱动
-        driver = webdriver.Chrome("../resources/chromedriver.exe")
-
-        # 打开网站
-        driver.get("http://www.51job.com")
-        driver.maximize_window()
-        # 搜索框
-        wait_element(driver, By.CSS_SELECTOR, "#kwdselectid").send_keys("python")
-
-        # 地区按钮
-        wait_element(driver, By.CSS_SELECTOR, "#work_position_input").click()
-
-        # 热门城市列表
-        city_lists = wait_elements(driver, By.CSS_SELECTOR, "div#work_position_click_center_right_list_000000 td em.on")
-
-        # 选中北京，取消选中其他城市
-        for city in city_lists:
-            sleep(1)
-            city.click()
-
-        wait_element(driver, By.CSS_SELECTOR, "em#work_position_click_center_right_list_category_000000_010000").click()
-
-        # 确定按钮
-        driver.find_element_by_css_selector("#work_position_click_bottom_save").click()
-
-        # 搜索按钮点击
-        wait_element(driver, By.CSS_SELECTOR, "div.top_wrap button").click()
-
-        # 找到职位列表
-        lists = wait_elements(driver, By.CSS_SELECTOR, "div#resultList>div.el")[1:]
-
-        for data in lists:
-            spans = [i.text for i in data.find_elements_by_css_selector("span")]
-            print(" | ".join(spans))
-
-        sleep(10)
-        # 退出浏览器
-        driver.quit()
