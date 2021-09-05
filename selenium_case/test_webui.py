@@ -23,6 +23,7 @@ class Test_WebUI:
 
     def teardown(self):
         self.driver.quit()
+
     @pytest.mark.skip
     def test_weibo(self):
         """
@@ -150,6 +151,32 @@ class Test_WebUI:
         #公司性质
         self.driver.find_element(By.ID,"cottype_list").click()
         #选择上市公司
-        self.driver.find_element_by_css_selector("#cottype_list>div>span:nth-child(5)").click()
+        self.driver.find_element(By.CSS_SELECTOR,"#cottype_list>div>span:nth-child(5)").click()
+        # 选择工作年限
+        self.driver.find_element(By.ID,"workyear_list").click()
+        #选择1-3年
+        self.driver.find_element(By.CSS_SELECTOR,"#workyear_list>div>span:nth-child(3)").click()
+        # 点击搜索
+        self.driver.find_element(By.CSS_SELECTOR,".p_but").click()
+        # 截取信息
+        time.sleep(2)
+        work_list=self.driver.find_elements(By.CSS_SELECTOR,".j_result>div>div:nth-child(2)>div:nth-child(4)")
+        for data in work_list:
+            """
+            定位到查找数据的位置 
+            获取到当前位置的所有信息 find_elements
+            在查找需要找到元素的标签 find_elements
+            在获取标签内的text
+            """
+            for i in data.find_elements(By.CSS_SELECTOR,"span"):
+                print(i.text)
+                # spans=i.text
+                # # .join 将序列中的元素使用指定字符连接生成新的字符串
+                # print("|".join(spans))
+            # spans = [i.text for i in data.find_elements_by_css_selector("span")]
+            # print(" | ".join(spans) + "\n")
+
+        time.sleep(10)
+
 
 
