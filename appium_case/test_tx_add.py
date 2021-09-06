@@ -10,6 +10,7 @@
 （1）实现添加联系人测试用例 （灵活使用元素定位，并添加断言）
 （2）实现添加多条联系人测试用例
 """
+import time
 
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
@@ -43,15 +44,16 @@ class Test_Tx:
                                                         'instance(0));').click()
         # 点击手动添加
         self.driver.find_element(MobileBy.XPATH,"//*[@text='手动输入添加']").click()
-        # 填写姓名
+        # # 填写姓名
+        # time.sleep(2)
         self.driver.find_element(MobileBy.XPATH,"//*[@class='android.widget.EditText' and @text='必填']").send_keys("0001")
-        # 账号
-        self.driver.find_elements(MobileBy.ID,"com.tencent.wework:id/b09")[1].send_keys("0001")
-        # 选择性别
-        self.driver.find_elements(MobileBy.ID,"com.tencent.wework:id/b0h")[0].click()
-        #选择女
-        WebDriverWait(self.driver,5).until(lambda x:x.find_element(MobileBy.XPATH,"//*[@text='男']"))
-        self.driver.find_element(MobileBy.XPATH,"//*[@text='女']").click()
+        # # 账号
+        # self.driver.find_elements(MobileBy.ID,"com.tencent.wework:id/b09")[1].send_keys("0001")
+        # # 选择性别
+        # self.driver.find_elements(MobileBy.ID,"com.tencent.wework:id/b0h")[0].click()
+        # #选择女
+        # WebDriverWait(self.driver,5).until(lambda x:x.find_element(MobileBy.XPATH,"//*[@text='男']"))
+        # self.driver.find_element(MobileBy.XPATH,"//*[@text='女']").click()
         # 填写手机号
         self.driver.find_element(MobileBy.XPATH,"//*[@text='手机号']").send_keys("13500000001")
         #保存
@@ -59,6 +61,8 @@ class Test_Tx:
                                                         'scrollable(true).instance(0)).'
                                                         'scrollIntoView(new UiSelector().text("保存").'
                                                         'instance(0));').click()
+        # print(self.driver.page_source)
+        print(self.driver.find_element(MobileBy.XPATH, "//*[contains(@text,'成功')]").text)
 
 
 
