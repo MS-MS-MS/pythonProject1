@@ -6,16 +6,16 @@ import pytest
 from pytestcode.cacl.calculator import Calculator
 
 
-@pytest.fixture(scope="class", autouse=True)
-def getcacl():
-    """
-    使用 pytest.fixture 初始化 计算器类
-    :return: cacl
-    """
-    print("计算开始")
-    cacl = Calculator()
-    yield cacl
-    print("计算结束")
+# @pytest.fixture(scope="class", autouse=True)
+# def getcacl():
+#     """
+#     使用 pytest.fixture 初始化 计算器类
+#     :return: cacl
+#     """
+#     # print("计算开始")
+#     cacl = Calculator()
+#     yield cacl
+#     # print("计算结束")
 
 
 def pytest_collection_modifyitems(
