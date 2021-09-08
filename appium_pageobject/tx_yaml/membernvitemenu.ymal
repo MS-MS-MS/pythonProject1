@@ -1,0 +1,4 @@
+goto_membernvitemenu:
+  - by: xpath
+    vaule: "//*[@text='手动输入添加']"
+    action: click

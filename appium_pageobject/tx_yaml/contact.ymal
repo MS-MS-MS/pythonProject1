@@ -1,0 +1,4 @@
+goto_contact:
+  - by: xpath
+    vaule: "//*[@class='android.widget.EditText' and @text='必填']"
+    action: send_keys

@@ -1,0 +1,4 @@
+goto_mail_list:
+  - by: xpath
+    vaule: "//*[@text='通讯录']"
+    action: click

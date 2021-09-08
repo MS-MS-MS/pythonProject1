@@ -8,6 +8,7 @@
 import yaml
 from appium import webdriver
 from appium.webdriver.common.mobileby import MobileBy
+from appium.webdriver.webdriver import WebDriver
 
 
 
@@ -19,13 +20,22 @@ from appium.webdriver.common.mobileby import MobileBy
 (3)将日志 保存到日志文件中，打印输出日志时间
 (4)通过参数化实现多条用例自动生成，将测试数据保存到yaml 文件中。
 """
+
+
 class BasePage:
     """
     基类用于封装基础的连接，查找方法封装 数据参数化的封装
     """
-    def __init__(self,driver:webdriver=None):
-        if driver==None:
-            desired_caps={}
+
+    def __init__(self, driver: WebDriver = None):
+        """
+        driver:WebDriver
+        定义一个类型
+        导入 from appium.webdriver.webdriver import WebDriver
+        :param driver:
+        """
+        if driver == None:
+            desired_caps = {}
             # 告诉Appium使用的那个移动平台
             desired_caps['platformName'] = 'Android'
             # 告诉Appium是当前平台的系统版本
@@ -42,19 +52,85 @@ class BasePage:
             self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
             self.driver.implicitly_wait(5)
         else:
-            self.driver=driver
-
-    def goto_mail_list(self):
-        self.driver.find_element(MobileBy.XPATH, "//*[@text='通讯录']").click()
-        from appium_pageobject.page.mail_list_page import MailListPage
-        return MailListPage(self.driver)
-
-    def get_yaml(self):
-        with open("../tx_yaml/tx_add.yaml", encoding="utf-8") as f:
-            date=yaml.safe_load(f)
-            case=date["case"]
-            ids=date["ids"]
-        return case,ids
+            self.driver = driver
 
 
 
+    def goto_main_page(self):
+        from appium_pageobject.page.main_page import MainPage
+        return MainPage(self.driver)
+
+    def find(self, by, value):
+        """
+        查找元素方法
+        :param by:
+        :param value:
+        :return:
+        """
+        print(by)
+        print(value)
+        return self.driver.find_element(by, value)
+
+    def finds(self, by, value):
+        """
+        查找多个元素方法
+        :param by:
+        :param value:
+        :return:
+        """
+        return self.driver.find_elements(by, value)
+
+    def uiautomator(self, text):
+        # 滑动查找
+        return self.driver.find_element_by_android_uiautomator('new UiScrollable(new UiSelector().'
+                                                               'scrollable(true).instance(0)).'
+                                                               f'scrollIntoView(new UiSelector().text("{text}").'
+                                                               'instance(0));')
+
+    def step_ymal(self, path, funcname):
+        """
+        解析测试步骤的方法
+        :param path: 需要传入测试步骤的yaml文件
+        :param funcname: 传入当前函数名
+        :return: 测试步骤数据
+        """
+        with open(path, encoding="utf-8") as f:
+            date = yaml.safe_load(f)
+            return self.step(date[funcname])
+
+    def step(self, date):
+        """
+        按照测试步骤进行操作
+        :param date:
+        :return:
+        """
+        for step in date:
+            if step["action"] == "click":
+                self.find(step["by"], step["vaule"]).click()
+            elif step["action"] == "send_keys":
+                self.find(step["by"], step["vaule"]).send_keys(step["send_keys"])
+
+# def step_ymal(path,funcname):
+#         """
+#         解析测试步骤的方法
+#         :param path: 需要传入测试步骤的yaml文件
+#         :return:
+#         """
+#         with open(path, encoding="utf-8") as f:
+#             date = yaml.safe_load(f)
+#             dates=date[funcname]
+#             return step(dates)
+# def step(date):
+#         """
+#         按照测试步骤进行操作
+#         :param date:
+#         :return:
+#         """
+#         for step in date:
+#             print(step)
+#             if step["action"] == "click":
+#                 print(1)
+#             elif step["action"] == "send_keys":
+#                 print(2)
+# def test_y():
+#     print(step_ymal("../tx_yaml/main.ymal","goto_mail_list"))

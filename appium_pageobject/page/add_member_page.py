@@ -14,9 +14,10 @@ from appium_pageobject.page.contactadd_page import ContactAddPage
 class Add_Member_Page(BasePage):
     def goto_membernvitemenu(self):
         # 点击手动添加
-        self.driver.find_element(MobileBy.XPATH, "//*[@text='手动输入添加']").click()
+        # self.find(MobileBy.XPATH, "//*[@text='手动输入添加']").click()
+        self.step_ymal("../tx_yaml/membernvitemenu.ymal","goto_membernvitemenu")
         return ContactAddPage(self.driver)
 
     def goto_toast(self):
-        result = self.driver.find_element(MobileBy.XPATH, "//*[contains(@text,'成功')]").text
+        result = self.find(MobileBy.XPATH, "//*[contains(@text,'成功')]").text
         return result
