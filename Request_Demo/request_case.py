@@ -76,8 +76,8 @@ class Test_demo():
             "Cookie": "hogwarts:school"
         }
         r = requests.get(url=url, headers=header)
-        # print(r.status_code)
-        print(r.headers)
+        print(r.json())
+        # print(r.headers)
 
     def test_Cookies_1(self):
         url = 'https://httpbin.testing-studio.com/cookies'
@@ -90,6 +90,9 @@ class Test_demo():
         }
         r = requests.get(url=url,headers=header, cookies=cookie_date)
         print(r.request.headers)
+
+
+
 
 
 
