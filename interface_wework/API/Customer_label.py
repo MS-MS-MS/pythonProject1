@@ -38,18 +38,18 @@ class Customer_Label(WeWrok_Tag):
         r = self.send("POST", url, params=params)
         return r
 
-    def add_tag(self,group_name,name,name1):
+    def add_tag(self,group_name,name):
         """
         添加企业标签
         """
         url = f'https://qyapi.weixin.qq.com/cgi-bin/externalcontact/add_corp_tag'
         # data = {
-        #     "group_name": f"GROUP_NAME1_{uid}",
+        #     "group_name": f"{group_name}",
         #     "tag": [{
-        #         "name": f"TAG_NAME_1_{uid}",
+        #         "name": f"{name}",
         #     },
         #         {
-        #             "name": f"TAG_NAME_2_{uid}",
+        #             "name": f"{name1}",
         #         }
         #     ]
         # }
@@ -57,10 +57,7 @@ class Customer_Label(WeWrok_Tag):
             "group_name": f"{group_name}",
             "tag": [{
                 "name": f"{name}",
-            },
-                {
-                    "name": f"{name1}",
-                }
+            }
             ]
         }
         params = {

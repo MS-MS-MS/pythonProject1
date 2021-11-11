@@ -1,0 +1,10 @@
+tag:
+  add:
+    group_name: "Group_Name"
+    name: "Name"
+    ids: "add_tag"
+  edit_tag:
+    name: "NewName"
+    ids: "edit_tag"
+  del_tag:
+    ids: "edit_tag"

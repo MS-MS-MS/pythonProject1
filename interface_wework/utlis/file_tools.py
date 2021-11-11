@@ -38,4 +38,9 @@ class FileTools:
 
 
 # if __name__ == '__main__':
-#     print(get_uuid())
+#     print(FileTools.read_yaml("tag"))
+#     data=FileTools.read_yaml("tag")
+#     group_name=data["tag"]["add"]["group_name"]
+#     print(group_name)
+#     name=data["tag"]["add"]["name"]
+#     print(name)
